@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
+
+import com.kcode.rxjavaexample.R;
 
 import rx.Observable;
 import rx.Observer;
@@ -13,13 +16,17 @@ import rx.Subscriber;
  * Created by caik on 2016/12/23.
  */
 
-public class ObservableSimple extends AppCompatActivity {
+public class TheBasics extends AppCompatActivity {
 
-    private static final String TAG = "ObservableSimple";
+    private static final String TAG = "TheBasics";
+    private TextView mTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_observablesimple);
+        mTextView = (TextView) findViewById(R.id.textView);
+        ObservableCreate();
     }
 
     private void ObservableCreate() {
@@ -48,6 +55,7 @@ public class ObservableSimple extends AppCompatActivity {
             @Override
             public void onNext(String s) {
                 Log.d(TAG, s);
+                mTextView.setText(s);
             }
         };
 
