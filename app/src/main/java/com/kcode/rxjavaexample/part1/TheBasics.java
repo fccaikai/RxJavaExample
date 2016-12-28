@@ -10,10 +10,8 @@ import com.kcode.rxjavaexample.R;
 
 import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * Created by caik on 2016/12/23.
@@ -35,12 +33,9 @@ public class TheBasics extends AppCompatActivity {
     private void ObservableCreate() {
 
         //创建一个被观察者
-        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("Hello World");
-                subscriber.onCompleted();
-            }
+        Observable<String> observable = Observable.create(subscriber -> {
+            subscriber.onNext("Hello World");
+            subscriber.onCompleted();
         });
 
         //创建一个观察者
@@ -108,17 +103,14 @@ public class TheBasics extends AppCompatActivity {
 
     private void map() {
         Observable.just("Hello World")
-                .map(new Func1<String, String>() {
-                    @Override
-                    public String call(String s) {
-                        return s + " --->map";
-                    }
-                })
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        mTextView.setText(s);
-                    }
-                });
+                .map(s -> { return s + "--map";})
+                .subscribe(result -> mTextView.setText(result));
     }
+
+    private void range() {
+        Observable.range(0,10)
+                .subscribe(integer -> Log.d("RxJava","" + integer),
+                        throwable -> Log.d("RxJava",throwable.toString()));
+    }
+
 }
